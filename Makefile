@@ -1,12 +1,11 @@
 .PHONY: all clean fclean re
 
-CC		=	/usr/bin/gcc
-RM		=	/bin/rm
-MKDIR	=	/bin/mkdir
+CC = gcc
+RM = rm
 
-GREEN=\033[0;32m
-BLUE=\033[0;34m
-RED=\033[0;31m
+GREEN = \033[0;32m
+BLUE = \033[0;34m
+RED = \033[0;31m
 
 NAME=libft.a
 
@@ -21,40 +20,40 @@ SRC		=	$(addprefix $(SRCDIR), ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c get_next_line.c \
 			ft_isspace.c)
 
-OBJDIR	=	objects
-OBJ		=	$(patsubst $(SRCDIR)%.c,$(OBJDIR)/%.o,$(SRC))
+OBJ_DIR = objects
+OBJ = $(patsubst $(SRCDIR)%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
-INC		=	includes/
-HEADER	=	$(INC)libft.h
+INCLUDES = includes/
+HEADER = $(INCLUDES)libft.h
 
-all				: 	$(OBJDIR) $(NAME)
+all: $(OBJ_DIR) $(NAME)
 
-$(NAME)			:	$(HEADER) $(SRC) $(OBJ) Makefile
+$(NAME): $(HEADER) $(SRC) $(OBJ) Makefile
 	@ar -rcs $(NAME) $(OBJ)
 	@printf "$(GREEN) ✓ Building $(NAME)\n"
 
-$(OBJDIR)/%.o	:	$(SRCDIR)/%.c
-	@$(CC) $(CFLAGS) -I$(INC) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRCDIR)/%.c
+	@$(CC) $(CFLAGS) -I $(INCLUDES) -c $< -o $@
 	@printf "$(GREEN) ✓ Building $@\n"
 
 clean:
-	@if [ -e $(OBJDIR) ]; \
+	@if [ -e $(OBJ_DIR) ]; \
 	then \
-		$(RM) -rf $(OBJDIR); \
+		$(RM) -rf $(OBJ_DIR); \
 		printf "$(BLUE) ✗ Deletion of object files\n"; \
 	fi;
 
-fclean			:	clean
+fclean: clean
 	@if [ -e $(NAME) ]; \
 	then \
 		$(RM) -f $(NAME); \
 		printf "$(RED) ✗ Deletion of $(NAME)\n"; \
 	fi;
 
-re				:	fclean all
+re: fclean all
 
-$(OBJDIR):
-	@$(MKDIR) $(OBJDIR)
-	@printf "$(GREEN) ✓ Creating $(OBJDIR) dir\n"
+$(OBJ_DIR):
+	@mkdir $(OBJ_DIR)
+	@printf "$(GREEN) ✓ Creating $(OBJ_DIR) dir\n"
