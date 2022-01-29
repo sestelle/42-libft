@@ -1,4 +1,4 @@
-# 42-libft
+# libft
 [42 Project] Implementation of standard C functions with some additions
 
 ## Memory functions
